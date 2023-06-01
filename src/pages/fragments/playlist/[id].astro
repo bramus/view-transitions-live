@@ -113,9 +113,12 @@ const {
 
   .playlist-container h1 {
     margin: 10px 0 15px;
-    font-size: 3rem;
+    font-size: 2.5rem;
     text-align: center;
     z-index: 1;
+
+    position: absolute;
+    top: 160px;
   }
 
   .playlist-container p {
@@ -124,5 +127,110 @@ const {
     line-height: 1.6;
     color: var(--secondaryTextColor);
     z-index: 1;
+  }
+
+  /* Position all things in container */
+  .playlist-container .playlist-header {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+  }
+
+  .playlist-container .playlist-stats {
+    position: absolute;
+    top: 254px;
+    z-index: 1;
+  }
+
+  .playlist-container .playlist-description {
+    position: absolute;
+    top: 296px;
+  }
+
+  .playlist-container .playlist-media {
+    position: absolute;
+    bottom: 0;
+  }
+
+  /* Animate the things in the header */
+  @keyframes fade-out {
+    to {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+  @keyframes move-up {
+    to {
+      translate: 0 -100%;
+    }
+  }
+  .playlist-container .player-controls-container { /* Controls fade out */
+    animation: fade-out linear forwards;
+    animation-timeline: scroll(root);
+    animation-range: 0 calc(var(--header-animation-range) / 3);
+  }
+
+  .playlist-container .playlist-description { /* Small description fades out + slides up */
+    animation: fade-out linear forwards, move-up linear forwards;
+    animation-timeline: scroll(root);
+    animation-range: calc(var(--header-animation-range) / 10) calc(var(--header-animation-range) / 4);
+  }
+
+  @keyframes scale-and-then-move {
+    50% {
+      scale: 0.6;
+      transform-origin: 50% 100%;
+    }
+    to {
+      scale: 0.2;
+      transform-origin: 10% 100%;
+    }
+  }
+  .playlist-container .playlist-media { /* The image shrinks and then moves to the side */
+    transform-origin: 50% 100%;
+    animation: scale-and-then-move linear forwards;
+    animation-timeline: scroll(root);
+    animation-range: 0 var(--header-animation-range);
+
+    position: absolute;
+    bottom: 0;
+  }
+
+  .playlist-media .playlist-image {
+    object-fit: contain;
+  }
+
+  .playlist-container .avatar-container, .playlist-container .user-info { /* The user-info + avatar container fades out */
+    animation: fade-out linear forwards;
+    animation-timeline: scroll(root);
+    animation-range: calc(var(--header-animation-range) / 10 * 5) calc(var(--header-animation-range) / 10 * 8);
+  }
+
+  @keyframes move-to-pos {
+    to {
+      top: var(--move-to-top, auto);
+      right: var(--move-to-right, auto);
+      bottom: var(--move-to-bottom, auto);
+      left: var(--move-to-left, auto);
+    }
+  }
+  .playlist-container .playlist-stats {
+    --move-to-top: 70px;
+    --move-to-left: calc(50% + 60px);
+    left: 50%;
+    translate: -50% 0;
+    animation: move-to-pos linear forwards;
+    animation-timeline: scroll(root);
+    animation-range: calc(var(--header-animation-range) / 10 * 4) calc(var(--header-animation-range) / 10 * 8);
+  }
+  .playlist-container h1 {
+    --move-to-top: 10px;
+    --move-to-left: calc(50% + 60px);
+    left: 50%;
+    translate: -50% 0;
+    white-space: nowrap;
+    animation: move-to-pos linear forwards;
+    animation-timeline: scroll(root);
+    animation-range: calc(var(--header-animation-range) / 10 * 4) calc(var(--header-animation-range) / 10 * 8);
   }
 </style>
