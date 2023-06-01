@@ -58,10 +58,23 @@ const {
 </main>
 
 <style is:inline>
+  :root {
+    --header-height: 875px;
+    --header-height-small: 120px;
+    --header-animation-range: calc(var(--header-height) - var(--header-height-small));
+  }
   .playlist-container {
     margin: 0 auto;
     padding: 0;
     max-width: 600px;
+    position: relative;
+    padding-top: var(--header-height);
+  }
+
+  @keyframes shrink-header {
+    to {
+      height: var(--header-height-small);
+    }
   }
 
   .playlist-container > header {
@@ -70,7 +83,19 @@ const {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
+
+    /* Fixated position and size of header */
+    position: fixed;
+    width: 100vw;
+    max-width: 600px;
+    top: 0;
+    height: var(--header-height);
+    overflow: hidden;
+
+    /* Shrink down header as you scroll up. See https://scroll-driven-animations.style/demos/cover-to-fixed-header/css/ for details */
+    animation: shrink-header linear forwards;
+    animation-timeline: scroll(root);
+    animation-range: 0 var(--header-animation-range);
   }
 
   .playlist-container .solid-background {
