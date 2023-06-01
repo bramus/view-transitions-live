@@ -17,7 +17,7 @@ const { title, media } = Astro.props
 <div class="playlist-media">
   {
     media.type === 'image' ? (
-      <img src={media.url} alt={title} class="playlist-image" width={media.width} height={media.height} />
+      <img src={media.url} alt={title} class="playlist-image" width={media.width} height={media.height} draggable="false" />
     ) : (
       <div data-persist-container="true">
         <video loop muted autoplay class="playlist-image" data-persist="true" width={media.width} height={media.height}>
