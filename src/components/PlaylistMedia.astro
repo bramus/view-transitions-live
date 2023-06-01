@@ -6,6 +6,8 @@ export interface Props {
   media: {
     type: string
     url: string
+    height: number
+    width: number
   }
 }
 
@@ -15,10 +17,10 @@ const { title, media } = Astro.props
 <div class="playlist-media">
   {
     media.type === 'image' ? (
-      <img src={media.url} alt={title} class="playlist-image" />
+      <img src={media.url} alt={title} class="playlist-image" width={media.width} height={media.height} />
     ) : (
       <div data-persist-container="true">
-        <video loop muted autoplay class="playlist-image" data-persist="true">
+        <video loop muted autoplay class="playlist-image" data-persist="true" width={media.width} height={media.height}>
           <source src={media.url} type="video/mp4" />
         </video>
       </div>
