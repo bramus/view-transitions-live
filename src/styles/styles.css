@@ -1,3 +1,55 @@
+html {
+  transition: all 2s ease;
+  height: 100dvh;
+  overflow-y: clip;
+
+  --vt-duration: 250ms;
+  --header-move-duration: var(--vt-duration);
+  --description-delay: calc(var(--vt-duration) / 5 * 2);
+
+  &::view-transition-group(threedee) {
+    z-index: 100;
+  }
+}
+body {
+  height: 100%;
+  overflow-y: scroll;
+}
+html:has(#threedee:checked):hover {
+  transform: rotateY(30deg) rotateX(15deg) scale(.5);
+  box-shadow: -1vh 1vh 5vh rgb(0 0 0 / 0.25);
+  outline: 10px solid lightblue;
+  --vt-duration: 2.5s;
+
+  &::view-transition,
+  &::view-transition-group(*),
+  &::view-transition-image-pair(*),
+  &::view-transition-new(*),
+  &::view-transition-old(*) {
+    transform-style: preserve-3d;
+  }
+  
+  &::view-transition-group(*),
+  &::view-transition-new(app-header),
+  &::view-transition-old(app-header) {
+    outline: 4px solid var(--border-color, gold);
+    box-shadow: -1vh 1vh 2em rgb(0 0 0 / 0.25);
+    /* translate: 0em 0em 10em; */
+  }
+
+  &::view-transition-group(app-header),
+  &::view-transition-group(threedee) {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &::view-transition-group(root) {
+    translate: none;
+    transition: opacity 0.15s ease;
+    opacity: 0.5;
+  }
+}
+
 .with-transition .playlist-image {
   view-transition-name: playlist-image;
 }
@@ -44,6 +96,10 @@
 
 .with-transition .playlist-back-button {
   view-transition-name: playlist-back-button;
+}
+
+::view-transition-group(*) {
+  animation-duration: var(--vt-duration);
 }
 
 /**
@@ -95,18 +151,18 @@
 */
 
 ::view-transition-new(app-header):only-child {
-  animation: 250ms cubic-bezier(0.4, 0, 0.2, 1) both slide-in;
+  animation: var(--header-move-duration) cubic-bezier(0.4, 0, 0.2, 1) both slide-in;
 }
 
 ::view-transition-old(app-header):only-child {
-  animation: 250ms cubic-bezier(0.4, 0, 0.2, 1) both slide-out;
+  animation: var(--header-move-duration) cubic-bezier(0.4, 0, 0.2, 1) both slide-out;
 }
 
 ::view-transition-old(playlist-description):only-child {
-  animation: 100ms cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+  animation: var(--description-delay) cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
 }
 ::view-transition-new(playlist-description):only-child {
-  animation-delay: 100ms;
+  animation-delay: var(--description-delay);
 }
 
 /**
@@ -127,12 +183,12 @@
 
 @keyframes slide-in {
   from {
-    transform: translateY(-70px);
+    transform: translateY(calc(-100% - 5px));
   }
 }
 
 @keyframes slide-out {
   to {
-    transform: translateY(-70px);
+    transform: translateY(calc(-100% - 5px));
   }
 }
